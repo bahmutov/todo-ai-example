@@ -1,0 +1,21 @@
+{
+  "name": "todo-ai-example",
+  "version": "1.0.0",
+  "description": "Examples of web development and testing using AI tools",
+  "main": "index.js",
+  "scripts": {
+    "start": "json-server --static app --watch app/data.json --middlewares ./node_modules/json-server-reset",
+    "test": "cypress run",
+    "cy:open": "cypress open"
+  },
+  "dependencies": {
+    "json-server": "0.17.4",
+    "json-server-reset": "1.6.4"
+  },
+  "keywords": [],
+  "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^3.5.3"
+  }
+}
