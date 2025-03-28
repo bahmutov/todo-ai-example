@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import 'cypress-rest-easy'
+
 describe('Todo app', () => {
   it('should show no todos (UI control)', () => {
     cy.visit('/')
@@ -58,4 +60,32 @@ describe('Todo app', () => {
     cy.reload()
     cy.get('.todo-list li').should('have.length', 1)
   })
+
+  it(
+    'adds one todo and persists it (rest-easy)',
+    { rest: { todos: [] } },
+    () => {
+      cy.visit('/')
+      cy.get('.loaded')
+      cy.get('.no-todos').should('be.visible')
+      cy.get('.new-todo').type('Buy milk{enter}')
+      cy.get('.todo-list li').should('have.length', 1)
+      // if we reload the page, the todo should be there
+      cy.reload()
+      cy.get('.todo-list li').should('have.length', 1)
+      // direct access to the todos list
+      cy.wrap(Cypress.env('todos'), { log: false })
+        .should('have.length', 1)
+        .its(0)
+        .then((item) => {
+          // confirm the item ID
+          expect(item.id, 'item ID').to.be.a('string')
+          cy.contains('li.todo', 'Buy milk').should(
+            'have.attr',
+            'data-todo-id',
+            item.id,
+          )
+        })
+    },
+  )
 })
