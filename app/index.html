@@ -38,6 +38,12 @@
         font-size: larger;
         font-weight: bolder;
       }
+      .no-todos {
+        text-align: center;
+        padding: 2em;
+        color: #777;
+        font-size: 1.2em;
+      }
     </style>
   </head>
 
@@ -55,6 +61,11 @@
           @keyup.enter="addTodo"
         />
       </header>
+
+      <div class="no-todos" v-show="!loading && !todos.length">
+        <p>No todos yet! Add one above to get started.</p>
+      </div>
+
       <section class="main" v-show="todos.length">
         <ul class="todo-list">
           <li
