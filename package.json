@@ -6,7 +6,8 @@
   "scripts": {
     "start": "json-server --static app --watch app/data.json --middlewares ./node_modules/json-server-reset",
     "test": "cypress run",
-    "cy:open": "cypress open"
+    "cy:open": "cypress open",
+    "dev": "start-test http://localhost:3000 cy:open"
   },
   "dependencies": {
     "json-server": "0.17.4",
@@ -16,6 +17,7 @@
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "license": "ISC",
   "devDependencies": {
+    "cypress": "^14.2.1",
     "prettier": "^3.5.3",
     "start-server-and-test": "^2.0.11"
   }
