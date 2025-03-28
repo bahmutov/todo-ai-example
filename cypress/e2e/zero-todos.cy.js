@@ -17,4 +17,45 @@ describe('Todo app', () => {
       })
     cy.get('.no-todos').should('be.visible')
   })
+
+  it('should show no todos (network control)', () => {
+    cy.intercept('GET', '/todos', [])
+    cy.visit('/')
+    cy.get('.loaded')
+    cy.get('.no-todos').should('be.visible')
+  })
+
+  it('adds one todo and persists it (network control)', () => {
+    cy.intercept(
+      {
+        method: 'GET',
+        url: '/todos',
+        times: 1,
+      },
+      [],
+    ).as('getTodos1')
+    cy.visit('/')
+    cy.get('.loaded')
+    cy.get('.no-todos').should('be.visible')
+    cy.intercept('POST', '/todos', {}).as('postTodo')
+    cy.get('.new-todo').type('Buy milk{enter}')
+    cy.get('.todo-list li').should('have.length', 1)
+    // if we reload the page, the todo should be there
+    cy.intercept(
+      {
+        method: 'GET',
+        url: '/todos',
+        times: 1,
+      },
+      [
+        {
+          id: 1,
+          title: 'Buy milk',
+          completed: false,
+        },
+      ],
+    ).as('getTodos2')
+    cy.reload()
+    cy.get('.todo-list li').should('have.length', 1)
+  })
 })
